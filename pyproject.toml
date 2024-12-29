@@ -1,5 +1,5 @@
 [project]
-name = "pendulum"
+name = "dlt-pendulum"
 version = "3.0.1"
 description = "Python datetimes made easy"
 readme = "README.rst"
@@ -31,7 +31,7 @@ Repository = "https://github.com/sdispater/pendulum"
 
 
 [tool.poetry]
-name = "pendulum"
+name = "dlt-pendulum"
 version = "3.0.1"
 description = "Python datetimes made easy"
 authors = ["Sébastien Eustace <sebastien@eustace.io>"]
@@ -41,7 +41,9 @@ homepage = "https://pendulum.eustace.io"
 repository = "https://github.com/sdispater/pendulum"
 documentation = "https://pendulum.eustace.io/docs"
 keywords = ['datetime', 'date', 'time']
-
+packages = [
+    { include = "pendulum", from="src" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.9"
@@ -86,6 +88,8 @@ test = ["time-machine"]
 
 [tool.maturin]
 module-name = "pendulum._pendulum"
+features = ["pyo3/extension-module"]
+python-packages = ["pendulum"]
 
 
 [tool.ruff]
