@@ -91,6 +91,11 @@ name = "dlt-pypi"
 url = "https://pypi.dlthub.com"
 priority = "primary"
 
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
 [tool.maturin]
 module-name = "pendulum._pendulum"
 features = ["pyo3/extension-module"]
