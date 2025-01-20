@@ -54,7 +54,7 @@ jobs:
 
       - name: Install poetry
         run: |
-          curl -fsS https://install.python-poetry.org | python - --preview -y
+          curl -fsS https://install.python-poetry.org | python - --version 1.8.5 -y
 
       - name: Update PATH
         if: ${{ matrix.os != 'Windows' }}

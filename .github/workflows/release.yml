@@ -118,7 +118,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          curl -fsS https://install.python-poetry.org | python - -y
+          curl -fsS https://install.python-poetry.org | python - --version 1.8.5 -y
 
       - name: Update PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
