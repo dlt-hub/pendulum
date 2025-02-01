@@ -2,18 +2,18 @@ Pendulum
 ########
 
 .. image:: https://img.shields.io/pypi/v/pendulum.svg
-    :target: https://pypi.python.org/pypi/pendulum
+    :target: https://pypi.python.org/pypi/dlt-pendulum
 
 .. image:: https://img.shields.io/pypi/l/pendulum.svg
-    :target: https://pypi.python.org/pypi/pendulum
+    :target: https://pypi.python.org/pypi/dlt-pendulum
 
-.. image:: https://github.com/sdispater/pendulum/actions/workflows/tests.yml/badge.svg
+.. image:: https://github.com/dlt-hub/pendulum/actions/workflows/tests.yml/badge.svg
     :alt: Pendulum Build status
     :target: https://github.com/sdispater/pendulum/actions
 
 Python datetimes made easy.
 
-Supports Python **3.9 and newer**.
+Supports Python **3.9 and newer**. It is a fork of original pendulum that supports Python **3.13**
 
 
 .. code-block:: python

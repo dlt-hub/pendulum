@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     name: Build on ${{ matrix.platform || matrix.os }} (${{ matrix.target }} - ${{ matrix.manylinux || 'auto' }})
+    environment: release
     strategy:
       fail-fast: false
       matrix:
@@ -77,13 +78,14 @@ jobs:
 
       - run: ${{ matrix.ls || 'ls -lh' }} dist/
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
 
   build_sdist:
     runs-on: ubuntu-latest
+    environment: release
     steps:
       - uses: actions/checkout@v3
       - name: Build sdist
@@ -92,13 +94,14 @@ jobs:
           command: sdist
           args: --out dist
       - name: Upload sdist
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
 
   build_none:
     runs-on: ubuntu-latest
+    environment: release
     steps:
       - uses: actions/checkout@v3
       - name: Install and configure Poetry
@@ -110,7 +113,7 @@ jobs:
       - name: Run poetry build
         run: poetry build
       - name: Upload sdist
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
@@ -120,20 +123,22 @@ jobs:
     needs: [ build, build_sdist, build_none ]
     if: success()
     runs-on: ubuntu-latest
-
+    environment: release
+    permissions:
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
 
-      - name: Install Poetry
-        run: |
-          curl -fsS https://install.python-poetry.org | python - --version 1.8.5 -y
+      # - name: Install Poetry
+      #   run: |
+      #     curl -fsS https://install.python-poetry.org | python - --version 1.8.5 -y
 
       - name: Update PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
@@ -155,11 +160,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: steps.check-version.outputs.prerelease == 'true'
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
 
-      - name: Publish to PyPI
-        shell: bash
-        env:
-          DLT_PYPI_PASSWORD: ${{ secrets.DLT_PYPI_PASSWORD }}
-          DLT_PYPI_USERNAME: ${{ secrets.DLT_PYPI_USERNAME }}
-        run: |
-          poetry publish --repository dlt-pypi --username $DLT_PYPI_USERNAME --password $DLT_PYPI_PASSWORD
+      # - name: Publish to PyPI
+      #   shell: bash
+      #   env:
+      #     DLT_PYPI_PASSWORD: ${{ secrets.DLT_PYPI_PASSWORD }}
+      #     DLT_PYPI_USERNAME: ${{ secrets.DLT_PYPI_USERNAME }}
+      #   run: |
+      #     poetry publish --repository dlt-pypi --username $DLT_PYPI_USERNAME --password $DLT_PYPI_PASSWORD
